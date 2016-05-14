@@ -1,0 +1,20 @@
+---
+- name: Install Java on VMs
+  hosts: inventory.txt
+  user: root
+  tasks:
+  
+  - name: Generate Java repository list
+    action: shell echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main' >/etc/apt/sources.list.d/java.list
+  
+  - name: Pass key
+    action: command apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+ 
+ - name: Accept java license
+    action: shell echo 'oracle-java7-installer shared/accepted-oracle-license-v1-1 select true' | debconf-set-selections
+ 
+ - name: Java update
+    action: command apt-get update -y
+ 
+ - name: Install java 7
+    action: command apt-get install oracle-java7-set-default -y

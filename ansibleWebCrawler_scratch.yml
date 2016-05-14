@@ -1,0 +1,31 @@
+hosts: XXXX
+  remote_user: root
+  tasks: 
+  - name: Run WebCrawler
+	template: src= java -jar /home/cc/Java/WebCrawler/WebCrawler.jar camtasia+crack CAMSAggF 10000
+  - ask-become-pass, -K
+    ignore_errors: yes
+  - name: continue through errors
+    command: /bin/false
+    ignore_errors: yes
+   
+hosts: XXXX
+  remote_user: root
+  tasks:  
+  - name: Run WebCrawler
+    template: src= java -jar /home/cc/Java/WebCrawler/WebCrawler.jar camtasia+free CAMSAggF 10000
+  - ask-become-pass, -K
+  - name: continue through errors
+    command: /bin/false
+    ignore_errors: yes
+	
+hosts: XXXX
+  remote_user: root
+  tasks:  
+  - name: Run WebCrawler
+    template: src= java -jar /home/cc/Java/WebCrawler/WebCrawler.jar camtasia+key CAMSAggF 10000
+  - ask-become-pass, -K
+  - name: continue through errors
+    command: /bin/false
+    ignore_errors: yes
+	

@@ -1,0 +1,13 @@
+--Launch VMs (http://docs.openstack.org/juno/install-guide/install/apt/content/launch-instance-neutron.html)
+
+#Generate Keypair
+ssh-keygen
+
+
+#Add keypair to Nova
+nova keypair-add --pub-key ~/.ssh/id_rsa.pub finalproj-key
+
+
+#Boot VMs
+nova boot --flavor m1.medium --image CC-Ubuntu14.04 (514.7 MB) --nic net-id=CH-817724
+  --security-group default --key-name crbawdenproj-key crbawdenproj-3

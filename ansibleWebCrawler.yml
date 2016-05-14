@@ -1,0 +1,34 @@
+hosts: 129.114.111.206
+  remote_user: root
+  vars: 
+  tasks:  
+  - name: Run WebCrawler
+    template: src= java -jar /home/cc/Java/WebCrawler/WebCrawler.jar camtasia+crack CAMSAggF 10000
+  - ask-become-pass, -K
+  - name: continue through errors
+    command: /bin/false
+    ignore_errors: yes
+  
+hosts: 129.114.111.250
+  remote_user: root
+  vars:
+  tasks:  
+  - name: Run WebCrawler
+    template: src= java -jar /home/cc/Java/WebCrawler/WebCrawler.jar camtasia+free CAMSAggF 10000
+  - ask-become-pass, -K
+  - name: continue through errors
+    command: /bin/false
+    ignore_errors: yes
+	
+hosts: 129.114.111.221
+  remote_user: root
+  vars:
+  tasks:  
+  - name: Run WebCrawler
+    template: src= java -jar /home/cc/Java/WebCrawler/WebCrawler.jar camtasia+key CAMSAggF 10000
+  - ask-become-pass, -K
+  - name: continue through errors
+    command: /bin/false
+    ignore_errors: yes
+  - name: run data eval
+    template: src= java -jar /home/cc/Java/DataEvaluation/DataEvaluation.jar.
