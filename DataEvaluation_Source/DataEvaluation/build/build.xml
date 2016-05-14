@@ -1,0 +1,83 @@
+<!-- Build File for VBS Web Service -->
+
+<project name="WebCrawler" basedir="../" default="generate.jar">
+
+    <property environment="env"/>
+	<property name="file.name" value="WebCrawler.jar"/>
+    <property name="classes.dir" value="${basedir}/classes"/>
+	<property name="dist.dir" value="${basedir}/dist"/>
+	<property name="source.dir" value="${basedir}/src"/>
+	<property name="res.dir" value="${basedir}/resources"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	
+	<path id="build.classpath">
+	  	<fileset dir="${basedir}">
+	     	<include name="lib/*.jar"/>
+	  	</fileset>
+	</path>
+	
+	<pathconvert property="manifest.classpath" pathsep=" ">
+	  	<path refid="build.classpath"/>
+	  	<mapper>
+	    	<chainedmapper>
+	       	<flattenmapper/>
+	       	<globmapper from="*.jar" to="lib/*.jar"/>
+	    	</chainedmapper>
+	  	</mapper>
+	</pathconvert>
+		
+    <path id="customized.classpath">
+    	<pathelement location="${classes.dir}" />
+	 	<fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="compilecode">
+        <mkdir dir="${classes.dir}"/>
+
+        <!--First let's compile the classes-->
+        <javac debug="on" 
+               	fork="true"
+               	destdir="${classes.dir}" 
+               	srcdir="${source.dir}"
+               	source="7"
+               	target="7"
+               	memoryInitialSize="128m"
+               	memoryMaximumSize="512m">              		
+               	<classpath refid="customized.classpath"/>
+        </javac>
+    </target>
+
+    <target name="generate.jar" depends="clean, compilecode">
+		<mkdir dir="${dist.dir}/"/>
+        <jar destfile="${dist.dir}/${file.name}">
+			<fileset dir="${classes.dir}"/>
+        	
+        	<manifest>
+        		<attribute name="Main-Class" value="com.iu.info590.dnoell.capture.CaptureUrlData"/>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+        	</manifest>
+		</jar>
+    	
+    	<copy todir="${dist.dir}/resources">
+    	    <fileset dir="${res.dir}">
+    	    	<exclude name="**/WebCrawler.log"/>
+    	    	<exclude name="**/SearchResults.txt"/>
+    	    </fileset>
+    	</copy>
+    	<copy todir="${dist.dir}/lib/">
+    	    <fileset dir="${lib.dir}">
+    	    </fileset>
+    	</copy>
+    	
+    	<zip destfile="${dist.dir}/WebCrawler.zip">
+    		<zipfileset dir="${dist.dir}"/>
+    	</zip>
+    </target>
+
+	<target name="clean">
+		<delete dir="${classes.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+</project>

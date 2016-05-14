@@ -162,6 +162,8 @@ public class PageData {
         Element	pgViews = htmlDocument.body().getElementsByClass("watch-view-count").first();
         if(pgViews  != null){
         	String vw = pgViews.text().trim().replace(",", "");
+        	vw = vw.trim().replace("views", "");
+        	vw = vw.trim().replace(" ", "");
         	if(Utility.isNumeric(vw))
         		views = Integer.parseInt(vw);
         	else
